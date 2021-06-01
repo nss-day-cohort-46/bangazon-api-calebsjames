@@ -51,50 +51,69 @@ class ProductTests(APITestCase):
         self.assertEqual(json_response["description"], "It flies high")
         self.assertEqual(json_response["location"], "Pittsburgh")
 
-    def test_update_product(self):
-        """
-        Ensure we can update a product.
-        """
-        self.test_create_product()
+    # def test_update_product(self):
+    #     """
+    #     Ensure we can update a product.
+    #     """
+    #     self.test_create_product()
 
-        url = "/products/1"
-        data = {
-            "name": "Kite",
-            "price": 24.99,
-            "quantity": 40,
-            "description": "It flies very high",
-            "category_id": 1,
-            "created_date": datetime.date.today(),
-            "location": "Pittsburgh"
-        }
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    #     url = "/products/1"
+    #     data = {
+    #         "name": "Kite",
+    #         "price": 24.99,
+    #         "quantity": 40,
+    #         "description": "It flies very high",
+    #         "category_id": 1,
+    #         "created_date": datetime.date.today(),
+    #         "location": "Pittsburgh"
+    #     }
+    #     self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+    #     response = self.client.put(url, data, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        response = self.client.get(url, data, format='json')
-        json_response = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(json_response["name"], "Kite")
-        self.assertEqual(json_response["price"], 24.99)
-        self.assertEqual(json_response["quantity"], 40)
-        self.assertEqual(json_response["description"], "It flies very high")
-        self.assertEqual(json_response["location"], "Pittsburgh")
+    #     response = self.client.get(url, data, format='json')
+    #     json_response = json.loads(response.content)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(json_response["name"], "Kite")
+    #     self.assertEqual(json_response["price"], 24.99)
+    #     self.assertEqual(json_response["quantity"], 40)
+    #     self.assertEqual(json_response["description"], "It flies very high")
+    #     self.assertEqual(json_response["location"], "Pittsburgh")
 
-    def test_get_all_products(self):
-        """
-        Ensure we can get a collection of products.
-        """
-        self.test_create_product()
-        self.test_create_product()
-        self.test_create_product()
+    # def test_get_all_products(self):
+    #     """
+    #     Ensure we can get a collection of products.
+    #     """
+    #     self.test_create_product()
+    #     self.test_create_product()
+    #     self.test_create_product()
 
-        url = "/products"
+    #     url = "/products"
 
-        response = self.client.get(url, None, format='json')
-        json_response = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(json_response), 3)
+    #     response = self.client.get(url, None, format='json')
+    #     json_response = json.loads(response.content)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(len(json_response), 3)
 
-    # TODO: Delete product
+    # def test_delete_product(self):
+    #     """
+    #     Ensure we can delete an existing game.
+    #     """
+    #     game = Game()
+    #     game.gametype_id = 1
+    #     game.skill_level = 5
+    #     game.title = "Sorry"
+    #     game.maker = "Milton Bradley"
+    #     game.number_of_players = 4
+    #     game.gamer_id = 1
+    #     game.save()
 
-    # TODO: Product can be rated. Assert average rating exists.
+    #     self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+    #     response = self.client.delete(f"/games/{game.id}")
+    #     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    #     # GET GAME AGAIN TO VERIFY 404 response
+    #     response = self.client.get(f"/games/{game.id}")
+    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    # # TODO: Product can be rated. Assert average rating exists.
