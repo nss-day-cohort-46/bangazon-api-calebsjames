@@ -155,7 +155,7 @@ class Products(ViewSet):
             serializer = ProductSerializer(product, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
-            return HttpResponseServerError(ex)
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk=None):
         """
