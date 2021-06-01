@@ -116,7 +116,7 @@ class ProductTests(APITestCase):
         response = self.client.delete(f"/products/{product.id}")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        # GET GAME AGAIN TO VERIFY 404 response
+        # GET PRODUCT AGAIN TO VERIFY 404 response
         response = self.client.get(f"/products/{product.id}")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
     
