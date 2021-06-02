@@ -104,6 +104,7 @@ class Products(ViewSet):
 
             new_product.image_path = data
 
+        new_product.clean()
         new_product.save()
 
         serializer = ProductSerializer(
@@ -184,6 +185,8 @@ class Products(ViewSet):
 
         product_category = ProductCategory.objects.get(pk=request.data["category_id"])
         product.category = product_category
+
+        product.clean()
         product.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
