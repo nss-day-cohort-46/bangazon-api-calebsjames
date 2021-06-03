@@ -29,6 +29,18 @@ class OrderTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+        #Creat a payment type
+        url = "/paymenttypes"
+        data = {
+        "merchant_name": "Moostercard",
+        "account_number": "0000111122223333",
+        "expiration_date": "2004-01-01",
+        "create_date": "2002-01-01",
+        }
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.post(url, data, format='json')
+
+
 
     def test_add_product_to_order(self):
         """
@@ -82,3 +94,37 @@ class OrderTests(APITestCase):
     # TODO: Complete order by adding payment type
 
     # TODO: New line item is not added to closed order
+    def test_closed_order(self):
+        # Add product
+        self.test_add_product_to_order()
+
+        #define URL to be targeted
+        url = "/orders/1"
+        
+
+        #define data to be sent
+        data = {
+            "payment_type": 1
+        }
+
+        #POST data to defined URL in JSON format
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        #assert that the data posted
+        response = self.client.get(url)
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["payment_type"], "http://testserver/paymenttypes/1")
+
+
+        #add new item to order
+        url = "/profile/cart"
+        data = { "product_id": 1 }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+        #assert that the new order has an id of 2
+        response = self.client.get(url)
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["id"], 2)
