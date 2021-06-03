@@ -107,6 +107,7 @@ class Orders(ViewSet):
         order.payment_type = Payment.objects.get(pk=request.data["payment_type"])
         order.save()
 
+
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def list(self, request):
